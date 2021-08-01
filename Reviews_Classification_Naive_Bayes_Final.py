@@ -117,7 +117,7 @@ def reviewfunc(inputvalue):
     stopwords.add('will')
     stopwords.add('im')
     stopwords.add('one') # beacuse everyone using this in context of the item ie this one or buy one etc
-    #wordcloud = WordCloud(width = 2000, height = 1000, background_color='black', max_words=100,colormap='Set2',stopwords=stopwords).generate(string_Total)
+    wordcloud = WordCloud(width = 2000, height = 1000, background_color='black', max_words=100,colormap='Set2',stopwords=stopwords).generate(string_Total)
     # Plot
     #plot_cloud(wordcloud)
     
