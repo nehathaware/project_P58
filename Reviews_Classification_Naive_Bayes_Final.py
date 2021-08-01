@@ -11,7 +11,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import re #regular expression
 import string
-import pickle
 
 def rating():
     data = pd.read_csv("amazon_alexa.csv")
@@ -21,7 +20,7 @@ def rating():
     
 
     
-    data.isnull().sum()
+  
     
    
     Totalrating=data["rating"].count()
@@ -75,11 +74,11 @@ def reviewfunc(inputvalue):
     clean = lambda x: clean_text(x)
      
     data['text'] = data.text.apply(clean)
-    data.text
+    #data.text
     
 
-    freq = pd.Series(' '.join(data['text']).split()).value_counts()[:20] # for top 20
-    freq
+    #freq = pd.Series(' '.join(data['text']).split()).value_counts()[:20] # for top 20
+    #freq
     
     
     #removing stopwords
@@ -90,8 +89,8 @@ def reviewfunc(inputvalue):
     
 
     #word frequency after removal of stopwords
-    freq_Sw = pd.Series(' '.join(data['text']).split()).value_counts()[:20] # for top 20
-    freq_Sw
+    #freq_Sw = pd.Series(' '.join(data['text']).split()).value_counts()[:20] # for top 20
+    #freq_Sw
     
     
     string_Total = " ".join(new_data)
@@ -101,23 +100,23 @@ def reviewfunc(inputvalue):
     # get_ipython().run_line_magic('matplotlib', 'inline')
     from wordcloud import WordCloud, STOPWORDS
     # Define a function to plot word cloud
-    def plot_cloud(wordcloud):
+    #def plot_cloud(wordcloud):
         # Set figure size
-        plt.figure(figsize=(40, 30))
+        #plt.figure(figsize=(40, 30))
         # Display image
-        plt.imshow(wordcloud) 
+        #plt.imshow(wordcloud) 
         # No axis details
-        plt.axis("off");
+        #plt.axis("off");
     
     
     # In[20]:
     
     
-    stopwords = STOPWORDS
-    stopwords.add('will')
-    stopwords.add('im')
-    stopwords.add('one') # beacuse everyone using this in context of the item ie this one or buy one etc
-    wordcloud = WordCloud(width = 2000, height = 1000, background_color='black', max_words=100,colormap='Set2',stopwords=stopwords).generate(string_Total)
+    #stopwords = STOPWORDS
+    #stopwords.add('will')
+    #stopwords.add('im')
+    #stopwords.add('one') # beacuse everyone using this in context of the item ie this one or buy one etc
+    #wordcloud = WordCloud(width = 2000, height = 1000, background_color='black', max_words=100,colormap='Set2',stopwords=stopwords).generate(string_Total)
     # Plot
     #plot_cloud(wordcloud)
     
@@ -132,7 +131,7 @@ def reviewfunc(inputvalue):
     from sklearn.feature_extraction.text import CountVectorizer
     vectorizer = CountVectorizer(stop_words='english',max_features=3000, binary=True)
     all_features = vectorizer.fit_transform(data.text)
-    all_features.shape
+    #all_features.shape
     
     
     # In[25]:
@@ -151,10 +150,10 @@ def reviewfunc(inputvalue):
     y_train=review_train.feedback
     y_test=review_test.feedback
     X_train_vect = vectorizer.fit_transform(X_train)
-    print(X_train.shape)
-    print(y_train.shape)
-    print(X_test.shape)
-    print(y_test.shape)
+    #print(X_train.shape)
+    #print(y_train.shape)
+    #print(X_test.shape)
+    #print(y_test.shape)
     
     
     # ## Train dataset balancing
@@ -167,8 +166,8 @@ def reviewfunc(inputvalue):
     X_train_res, y_train_res = sm.fit_resample(X_train_vect, y_train)
     unique, counts = np.unique(y_train_res, return_counts=True)
     print(list(zip(unique, counts)))
-    y_train_res
-    X_train_res
+    #y_train_res
+    #X_train_res
     
     
     # ## Model Building
@@ -181,14 +180,14 @@ def reviewfunc(inputvalue):
     nb.fit(X_train_res, y_train_res)
     nb.score(X_train_res, y_train_res)
     train_pred = nb.predict(X_train_res)
-    train_pred
+    #train_pred
     
     
     # In[29]:
     
     
-    from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, precision_score, recall_score
-    print("Accuracy: {:.2f}%".format(accuracy_score(y_train_res, train_pred) * 100))
+    #from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, precision_score, recall_score
+    #print("Accuracy: {:.2f}%".format(accuracy_score(y_train_res, train_pred) * 100))
 
 
     # In[30]:
@@ -196,14 +195,14 @@ def reviewfunc(inputvalue):
     
     X_test_vect = vectorizer.transform(X_test)
     y_pred = nb.predict(X_test_vect)
-    y_pred
+    #y_pred
     
     
     # In[31]:
     
     
-    from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, precision_score, recall_score
-    print("Accuracy: {:.2f}%".format(accuracy_score(y_test, y_pred) * 100))
+    #from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, precision_score, recall_score
+    #print("Accuracy: {:.2f}%".format(accuracy_score(y_test, y_pred) * 100))
     
     
     # In[32]:
@@ -217,13 +216,13 @@ def reviewfunc(inputvalue):
     
     X_overall_vect = vectorizer.transform(data.text)
     y_pred_overall = nb.predict(X_overall_vect)
-    y_pred_overall
+    #y_pred_overall
     
     
     # In[34]:
     
     
-    print("Accuracy: {:.2f}%".format(accuracy_score(data.feedback, y_pred_overall) * 100))
+    #print("Accuracy: {:.2f}%".format(accuracy_score(data.feedback, y_pred_overall) * 100))
     
     a = sum(y_pred_overall==0)
     b = sum(y_pred_overall==1)
